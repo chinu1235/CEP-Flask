@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpportunityHub - Find & Share Student Opportunities</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="#home" class="logo">OpportunityHub</a>
+        <button
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="hamburger"></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#opportunities" class="nav-link">Opportunities</a>
+          <a href="#gov-scholarships" class="nav-link">Scholarships</a>
+          <div class="auth-buttons" id="authContainer">
+            <!-- Rendered dynamically by script.js (Login/Signup or User Profile/Logout) -->
+            <button class="btn btn-outline" id="openAuthBtn">
+              Login / Sign Up
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HOME / HERO SECTION -->
+    <section id="home" class="hero-section">
+      <div class="container hero-container">
+        <h1 class="hero-title">Find and Share Opportunities</h1>
+        <p class="hero-description">
+          A student-powered platform to discover and share internships,
+          scholarships, hackathons, competitions, courses, and job openings.
+          Empower your academic and professional journey.
+        </p>
+        <div class="hero-actions">
+          <a href="#opportunities" class="btn btn-primary"
+            >Explore Opportunities</a
+          >
+          <button class="btn btn-secondary" id="postHeroBtn">
+            Post an Opportunity
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="container">
+      <!-- OPPORTUNITIES SECTION -->
+      <section id="opportunities" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Latest Student Opportunities</h2>
+          <p class="section-subtitle">
+            Browse through opportunities shared by fellow students.
+          </p>
+        </div>
+
+        <!-- SEARCH AND FILTER CONTROLS -->
+        <div class="filter-bar">
+          <div class="search-box">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by title, description, or username..."
+              class="form-control"
+            />
+          </div>
+          <div class="category-box">
+            <select id="categorySelect" class="form-control">
+              <option value="All">All Categories</option>
+              <option value="Internships">Internships</option>
+              <option value="Scholarships">Scholarships</option>
+              <option value="Hackathons">Hackathons</option>
+              <option value="Competitions">Competitions</option>
+              <option value="Courses">Courses</option>
+              <option value="Jobs">Jobs</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- OPPORTUNITY CARDS GRID -->
+        <div id="opportunitiesGrid" class="cards-grid">
+          <!-- Rendered dynamically via JavaScript -->
+        </div>
+        <div id="noResultsMsg" class="no-results hidden">
+          <p>No opportunities match your search criteria.</p>
+        </div>
+      </section>
+
+      <!-- GOVERNMENT SCHOLARSHIPS SECTION -->
+      <section id="gov-scholarships" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Government Scholarships</h2>
+          <p class="section-subtitle">
+            Verified official scholarship schemes provided by national portals.
+          </p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card 1 -->
+          <div class="card gov-card">
+            <span class="badge badge-gov">Government</span>
+            <h3 class="card-title">National Scholarship Portal (NSP)</h3>
+            <p class="card-description">
+              One-stop platform for financial assistance schemes by Central
+              Ministries and State Governments for school and higher education
+              students.
+            </p>
+            <a
+              href="https://scholarships.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-outline card-btn"
+              >Official Website</a
+            >
+          </div>
+
+          <!-- Card 2 -->
+          <div class="card gov-card">
+            <span class="badge badge-gov">Government</span>
+            <h3 class="card-title">PM YASASVI</h3>
+            <p class="card-description">
+              PM Young Achievers Scholarship Award Scheme for Vibrant India,
+              offering scholarships to eligible OBC, EBC, and DNT category
+              students.
+            </p>
+            <a
+              href="https://yet.nta.ac.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-outline card-btn"
+              >Official Website</a
+            >
+          </div>
+
+          <!-- Card 3 -->
+          <div class="card gov-card">
+            <span class="badge badge-gov">Government</span>
+            <h3 class="card-title">National Overseas Scholarship</h3>
+            <p class="card-description">
+              Scholarship scheme aiding low-income students belonging to
+              specific categories to pursue Master's or Ph.D. degrees abroad.
+            </p>
+            <a
+              href="https://nosmsje.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-outline card-btn"
+              >Official Website</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-container">
+        <p>
+          &copy; 2025 OpportunityHub. Open-source student community platform.
+        </p>
+      </div>
+    </footer>
+
+    <!-- MODAL: LOGIN / SIGNUP -->
+    <div class="modal-backdrop hidden" id="authModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-tabs">
+            <button class="tab-btn active" id="tabLoginBtn">Login</button>
+            <button class="tab-btn" id="tabSignupBtn">Sign Up</button>
+          </div>
+          <button class="close-btn" id="closeAuthModalBtn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- LOGIN FORM -->
+          <form id="loginForm" class="auth-form">
+            <div class="form-group">
+              <label for="loginUsername">Username / ID</label>
+              <input
+                type="text"
+                id="loginUsername"
+                class="form-control"
+                placeholder="e.g. chaman_cs"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input
+                type="password"
+                id="loginPassword"
+                class="form-control"
+                placeholder="Enter password"
+                required
+              />
+            </div>
+            <div id="loginAlert" class="alert hidden"></div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Login
+            </button>
+          </form>
+
+          <!-- SIGNUP FORM -->
+          <form id="signupForm" class="auth-form hidden">
+            <div class="form-group">
+              <label for="signupName">Full Name</label>
+              <input
+                type="text"
+                id="signupName"
+                class="form-control"
+                placeholder="e.g. Chaman Kumar"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupUsername">Username / ID</label>
+              <input
+                type="text"
+                id="signupUsername"
+                class="form-control"
+                placeholder="e.g. chaman_cs"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupPassword">Password</label>
+              <input
+                type="password"
+                id="signupPassword"
+                class="form-control"
+                placeholder="Create password"
+                required
+              />
+            </div>
+            <div id="signupAlert" class="alert hidden"></div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Create Account
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: POST OPPORTUNITY -->
+    <div class="modal-backdrop hidden" id="postModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Post an Opportunity</h3>
+          <button class="close-btn" id="closePostModalBtn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <form id="postForm">
+            <div class="form-group">
+              <label for="postTitle">Opportunity Title *</label>
+              <input
+                type="text"
+                id="postTitle"
+                class="form-control"
+                placeholder="e.g. Web Development Internship"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="postCategory">Category *</label>
+              <select id="postCategory" class="form-control" required>
+                <option value="">Select Category</option>
+                <option value="Internships">Internships</option>
+                <option value="Scholarships">Scholarships</option>
+                <option value="Hackathons">Hackathons</option>
+                <option value="Competitions">Competitions</option>
+                <option value="Courses">Courses</option>
+                <option value="Jobs">Jobs</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="postDescription">Description *</label>
+              <textarea
+                id="postDescription"
+                class="form-control"
+                rows="4"
+                placeholder="Provide details about eligibility, responsibilities, or perks..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="postDeadline">Deadline *</label>
+              <input
+                type="date"
+                id="postDeadline"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="postLink">Application / Reference Link *</label>
+              <input
+                type="url"
+                id="postLink"
+                class="form-control"
+                placeholder="https://example.com/apply"
+                required
+              />
+            </div>
+
+            <div id="postAlert" class="alert hidden"></div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Submit Opportunity
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: VIEW OPPORTUNITY DETAILS -->
+    <div class="modal-backdrop hidden" id="viewModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="viewTitle">Opportunity Title</h3>
+          <button class="close-btn" id="closeViewModalBtn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-meta">
+            <span class="badge" id="viewCategory">Category</span>
+            <span class="posted-by" id="viewPostedBy"
+              >Posted by: @username</span
+            >
+          </div>
+          <p class="deadline-text">
+            <strong>Deadline:</strong> <span id="viewDeadline">YYYY-MM-DD</span>
+          </p>
+          <div class="view-description-box">
+            <h4>Description</h4>
+            <p id="viewDescription"></p>
+          </div>
+          <div class="modal-actions">
+            <a
+              id="viewLink"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary btn-block"
+              >Apply / Visit Official Link</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
